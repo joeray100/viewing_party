@@ -1,7 +1,12 @@
-<h3>Welcome to Viewing Party</h3>
+<body
+  class="bg-black"
+  style="background-image: url(https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80)">
 
-<h3>About: </h3>
-<p>Viewing party is an application in which users can explore movie options and create a viewing party event for the user and friend's.</p>
+  <div class="px-8 p-12 text-white text-center">
+    <h3 class="mt-5 text-3xl">Welcome to Viewing Party</h3><br>
+    <p>Viewing party is an application in which users can explore movie options and create a viewing party event for the user and friend's.</p><br>
+    <%= link_to 'Register', register_path %><br><br>
+    <%= button_to 'Log in', login_path, method: :get %>
+  </div>
 
-<p><%= link_to 'Register', register_path %></p>
-<p><%= button_to 'Log in', login_path, method: :get %></p>
+</body>

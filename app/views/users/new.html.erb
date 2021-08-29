@@ -1,11 +1,16 @@
-<%= form_with model: @user, local: true do |f| %>
+<%= form_with model: @user, builder: TailwindFormBuilder, local: true do |f| %>
+
   <%= f.label :user_name, 'User Name' %>
-  <%= f.text_field :user_name %>
+  <%= f.text_field :user_name, placeholder: 'User Name'  %><br>
+
   <%= f.label :email, 'Email' %>
-  <%= f.text_field :email %>
+  <%= f.text_field :email, placeholder: 'Email' %><br>
+
   <%= f.label :password, 'Password' %>
-  <%= f.password_field :password %>
+  <%= f.password_field :password, placeholder: 'Password' %><br>
+
   <%= f.label :password_confirmation, 'Confirm Your Password' %>
-  <%= f.password_field :password_confirmation %>
+  <%= f.password_field :password_confirmation, placeholder: 'Password'  %><br>
+
   <%= f.submit 'Register' %>
 <% end %>
