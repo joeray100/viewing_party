@@ -1,82 +1,157 @@
-<ul class="nav nav-pills">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#"><%= link_to 'Log out', '/logout', method: :delete %></a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#"><%= button_to 'Discover Movies', discover_path, method: :get %></a>
-  </li>
-  <li class="nav-item">
-    <h1>Welcome <%= current_user.user_name %>!</h1>
-  </li>
-</ul>
+<!-- nav bar goes here -->
+<nav class="bg-gray-200">
+  <div class="pl-5 pr-3 mx-auto border border-b-4 border-blue-300">
+    <div class="flex justify-between">
 
+      <!-- left side -->
+      <div class="flex space-x-4">
 
+        <!-- logo -->
+        <div class="mr-4" href="#">
+          <a href="#" class="flex items-center px-2 py-3 text-gray-700">
+            <svg class="h-12 w-12 mr-2" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4v16M17 4v16M3 8h4m10 0h4M3 12h18M3 16h4m10 0h4M4 20h16a1 1 0 001-1V5a1 1 0 00-1-1H4a1 1 0 00-1 1v14a1 1 0 001 1z" />
+            </svg>
+          </a>
+        </div>
 
+        <!-- primary nav -->
+        <div class="flex items-center space-x-1">
+          <a href="/discover" method="get" class=" px-4 py-3 text-gray-700 hover:text-black">Discover Movies</a>
+        </div>
 
+      </div>
 
-<section id="friends">
-  <div>Friends:
-    <br>
-    <% if current_user.friends.length == 0 %>
-      <%= 'You currently have no friends' %>
-    <% else %>
-      <ul>
-        <% current_user.friends.each do |friend| %>
-          <li><%= friend.user_name %></li>
+      <!-- right side -->
+      <!-- Logout -->
+      <div class="flex items-center mr-4">
+        <div class=" px-5 py-3 bg-blue-300 rounded hover:bg-black hover:text-white text-gray-700 shadow-2xl">
+          <%= link_to 'Logout', '/logout', method: :delete %>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</nav>
+
+<!-- Body -->
+<div class="relative p-10 min-h-screen overflow-hidden">
+  <!-- gray background -->
+  <div class="absolute inset-y-0 -right-72 bg-gray-100 transform rotate-45" style="width: 250%"></div>
+
+  <!-- Headline -->
+  <div class="relative text-center mb-12">
+    <h1 class="text-4xl font-bold text-gray-800"><%= current_user.user_name %>'s Dashboard</h1>
+  </div>
+
+  <!-- 3 Boxes -->
+  <div class="relative grid sl:grid-cols-1 md:grid-cols-3 gap-4">
+
+    <!-- Friends -->
+    <div class="bg-white p-8 shadow border-t-4 border-blue-300">
+      <!-- pricing header -->
+      <div class="mb-10 space-y-2">
+        <h2 class="text-4xl font-thin text-blue-900">Friends</h2>
+      </div>
+      <!-- Friends list -->
+      <div>
+        <ul class="space-y-3 text-gray-600">
+          <li>
+            <% if current_user.friends.length == 0 %>
+            <svg class="inline w-6 h-6 text-green-200" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+            </svg>
+            <h3 class="inline text-sm uppercase text-gray-400">You currently have no friends</h3>
+            <% else %>
+              <ul>
+                <% current_user.friends.each do |friend| %>
+                <svg class="inline w-6 h-6 text-green-200" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                </svg>
+                <li class="inline text-sm uppercase text-gray-400"><%= friend.user_name %></li><br>
+                <% end %>
+              </ul>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Friend Search -->
+    <div class="bg-white p-8 shadow border-t-4 border-blue-300">
+        <!-- pricing header -->
+        <div class="mb-10 space-y-2">
+          <h2 class="text-4xl font-thin text-blue-900">Search for Friends</h2>
+        </div>
+        <%= form_with url: dashboard_index_path, method: :post, builder: TailwindFormBuilder, local: true do |f| %>
+
+          <%= f.label :friends, "Friend's Email Address" %>
+          <%= f.text_field :friends, placeholder: 'Email'  %>
+
+          <%= f.submit 'Add Friend' %>
         <% end %>
-      </ul>
-    <% end %>
-  </div><br>
-  <div>
-    <%= form_with url: dashboard_index_path, method: :post, local: true do |f| %>
-      <%= f.label :friends, "Friend's Email Address" %>
-      <%= f.text_field :friends %>
-      <%= f.submit 'Add Friend' %>
-    <% end %>
+    </div>
+
+    <!-- Parties -->
+    <div class="bg-white p-8 shadow border-t-4 border-blue-300">
+      <!-- Header -->
+      <div class="mb-10 space-y-2">
+        <h2 class="text-4xl font-thin text-blue-900">Your Viewing Parties</h2>
+      </div>
+      <!-- Hosting -->
+      <div class="mb-10 space-y-2">
+        <h3 class="text-sm uppercase text-gray-400">Parties you're hosting</h3>
+        <% current_user.parties.each do |party| %>
+          <% if party.host_id == current_user.id %>
+            <p><%= link_to "#{party.movie_title}", movie_path(party.movie_id) %></p>
+            <p><%= party.start_date.strftime('%B %e, %Y') %></p>
+            <p><%= party.start_time.strftime('%I:%M %p') %></p>
+            <p>Hosting</p>
+            <p>Friends also watching: </p>
+            <% party.viewers.each do |viewer| %>
+              <div>
+                <ul class="space-y-3 text-gray-600">
+                  <li>
+                    <svg class="inline w-6 h-6 text-green-200" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <%= viewer.user.user_name %>
+                  </li>
+                </ul>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+      <!-- Invited -->
+      <div class="mb-10 space-y-2">
+        <h3 class="text-sm uppercase text-gray-400">Parties you're invited to</h3>
+        <% if current_user.viewers != nil %>
+          <% current_user.viewers.each do |viewer| %>
+            <p><%= link_to "#{viewer.party.movie_title}", movie_path(viewer.party.movie_id) %></p>
+            <p><%= viewer.party.start_date.strftime('%B %e, %Y') %></p>
+            <p><%= viewer.party.start_time.strftime('%I:%M %p') %></p>
+            <p>Invited</p>
+            <p>Hosted by <%= viewer.party.host.user_name %></p>
+            <p>People watching: </p>
+            <p><% viewer.party.viewers.each do |viewer| %></p>
+              <div>
+                <ul class="space-y-3 text-gray-600">
+                  <li>
+                    <svg class="inline w-6 h-6 text-green-200" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    <%= viewer.user.user_name %>
+                  </li>
+                </ul>
+              </div>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+
   </div>
-</section>
-<br>
 
-<section id="parties">
-  <div class="viewing-parties">
-    <h3>Your Viewing Parties: </h3>
-
-    <h4>Parties you're hosting</h4>
-
-    <% current_user.parties.each do |party| %>
-  <% if party.host_id == current_user.id %>
-      <p><%= link_to "#{party.movie_title}", movie_path(party.movie_id) %></p>
-      <p><%= party.start_date.strftime('%B %e, %Y') %></p>
-      <p><%= party.start_time.strftime('%I:%M %p') %></p>
-      <p>Hosting</p>
-      <p>Friends also watching: </p>
-      <% party.viewers.each do |viewer| %>
-        <ul>
-          <p><%= viewer.user.user_name %></p>
-        </ul>
-      <% end %>
-    <% end %>
-  <% end %>
-  <p>------------------------------------------------</p>
-  <h4>Parties you're invited to</h4>
-
-  <% if current_user.viewers != nil %>
-    <% current_user.viewers.each do |viewer| %>
-      <p><%= link_to "#{viewer.party.movie_title}", movie_path(viewer.party.movie_id) %></p>
-      <p><%= viewer.party.start_date.strftime('%B %e, %Y') %></p>
-      <p><%= viewer.party.start_time.strftime('%I:%M %p') %></p>
-      <p>Invited</p>
-      <p>Hosted by <%= viewer.party.host.user_name %></p>
-      <p>People watching: </p>
-      <p><% viewer.party.viewers.each do |viewer| %></p>
-        <ul>
-          <p><%= viewer.user.user_name %></p>
-        </ul>
-      <% end %>
-    <% end %>
-  <% end %>
-  </div>
-</section>
+</div>
