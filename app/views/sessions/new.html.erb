@@ -1,12 +1,12 @@
-<%= form_with url: '/login', method: :post, local: true do |f| %>
-  <%= f.label :user_name, "User Name: " %>
-  <%= f.text_field :user_name %>
+<%= form_with url: '/login', method: :post, builder: TailwindFormBuilder, local: true do |f| %>
+  <%= f.label :user_name, 'User Name' %>
+  <%= f.text_field :user_name, placeholder: 'User Name'  %><br>
 
-  <%= f.label :email, "Email: " %>
-  <%= f.text_field :email %>
+  <%= f.label :email, 'Email' %>
+  <%= f.text_field :email, placeholder: 'Email' %><br>
 
-  <%= f.label :password, "password: " %>
-  <%= f.text_field :password %>
+  <%= f.label :password, 'Password' %>
+  <%= f.password_field :password, placeholder: 'Password' %><br>
 
   <%= f.submit 'Log in' %>
 <% end %>
