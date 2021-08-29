@@ -1,12 +1,23 @@
-<%= form_with url: '/login', method: :post, builder: TailwindFormBuilder, local: true do |f| %>
-  <%= f.label :user_name, 'User Name' %>
-  <%= f.text_field :user_name, placeholder: 'User Name'  %><br>
+<div class="min-h-screen flex items-center justify-center bg-blue-400">
+  <!-- Login Box -->
+  <div class="bg-white p-8 rounded shadow-2xl w-1/2">
+    <h2 class="mb-3 text-center font-semibold text-lg">Login To Your Account</h2>
+    <!-- Login Form -->
+    <form class="ml-10 mr-10" action="/login" accept-charset="UTF-8" method="post">
+      <input name="utf8" type="hidden" value="&#x2713;" />
+      <input type="hidden" name="authenticity_token" value="oobzaRRaFeladz3sIOjTtI7orJJVgDneZeTbIbmAA-h6FwGm3ofSuJkGXeE1ndkJ8hM_dsBy_Af-bk59QlRTHg" />
 
-  <%= f.label :email, 'Email' %>
-  <%= f.text_field :email, placeholder: 'Email' %><br>
+      <label>User Name</label>
+      <input class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="User Name" type="text" name="user_name" /><br>
 
-  <%= f.label :password, 'Password' %>
-  <%= f.password_field :password, placeholder: 'Password' %><br>
+      <label>Email</label>
+      <input class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Email" type="text" name="email" /><br>
 
-  <%= f.submit 'Log in' %>
-<% end %>
+      <label>Password</label>
+      <input class="mt-2 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" placeholder="Password" type="password" name="password" /><br>
+
+      <input class="block w-full bg-gray-400 p-2 rounded-lg shadow-lg bg-gray-300 text-black uppercase tracking-wider font-semibold hover:bg-green-400" type="submit" name="commit" value="Log in" data-disable-with="Log in" />
+    </form>
+  </div>
+
+</div>
