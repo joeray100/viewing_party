@@ -16,7 +16,7 @@ RSpec.describe "User registration form" do
 
     click_on 'Register'
 
-    expect(page).to have_content("Welcome #{username}!")
+    expect(page).to have_content("#{username}'s Dashboard")
 
     expect(current_path).to eq(dashboard_index_path)
     new_user = User.last

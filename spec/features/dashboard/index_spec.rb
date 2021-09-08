@@ -8,6 +8,7 @@ RSpec.describe 'dashboard index page' do
 
     expect(current_path).to eq(root_path)
   end
+
   it 'allows a logged in user to visit the dashboard page' do
     visit root_path
 
@@ -18,7 +19,7 @@ RSpec.describe 'dashboard index page' do
     user1.friends << user2
     user1.friends << user3
 
-    click_on 'Log in'
+    click_on 'Login'
 
     expect(current_path).to eq('/login')
 
@@ -29,14 +30,17 @@ RSpec.describe 'dashboard index page' do
     click_on 'Log in'
 
     expect(current_path).to eq(dashboard_index_path)
-    expect(page).to have_content("Welcome #{user1.user_name}!")
+    expect(page).to have_content("#{user1.user_name}'s Dashboard")
     expect(page).to have_selector(:link_or_button, 'Discover Movies')
-    within('#friends') do
+
+    within('.friends') do
       expect(page).to have_content(user2.user_name)
       expect(page).to have_content(user3.user_name)
     end
+
     expect(page).to have_content("Your Viewing Parties")
   end
+
   it 'has a section to add friends' do
     user1 = User.create(user_name: 'test1', email: 'test1@example.com', password: 'sploot')
     user2 = User.create(user_name: 'test2', email: 'test2@example.com', password: 'password123')
@@ -46,11 +50,11 @@ RSpec.describe 'dashboard index page' do
 
     visit dashboard_index_path
 
-    within('#friends') do
+    within('.friends') do
       expect(page).to have_content('You currently have no friends')
-      expect(page).to have_button('Add Friend')
     end
   end
+
   it 'can add a friend if their email exists' do
     user1 = User.create(user_name: 'test1', email: 'test1@example.com', password: 'sploot')
     user2 = User.create(user_name: 'test2', email: 'test2@example.com', password: 'password123')
@@ -60,21 +64,19 @@ RSpec.describe 'dashboard index page' do
 
     visit dashboard_index_path
 
-    within('#friends') do
-      fill_in "friends",	with: "#{user2.email}"
-      click_button 'Add Friend'
+    fill_in "friends",	with: "#{user2.email}"
+    click_button 'Add Friend'
 
-      fill_in "friends",	with: "#{user3.email}"
-      click_button 'Add Friend'
+    fill_in "friends",	with: "#{user3.email}"
+    click_button 'Add Friend'
 
-      expect(current_path).to eq(dashboard_index_path)
-      expect(page).to have_content("#{user2.user_name}")
-      expect(page).to have_content("#{user3.user_name}")
-    end
-    within('#friends') do
-      fill_in "friends",	with: 'idontexist@example.com'
-      click_button 'Add Friend'
-    end
+    expect(current_path).to eq(dashboard_index_path)
+    expect(page).to have_content("#{user2.user_name}")
+    expect(page).to have_content("#{user3.user_name}")
+
+    fill_in "friends",	with: 'idontexist@example.com'
+    click_button 'Add Friend'
+
     expect(page).to have_content('Please enter a vaild email address')
   end
 
@@ -83,13 +85,13 @@ RSpec.describe 'dashboard index page' do
     allow_any_instance_of(ApplicationController).to receive(:current_user).and_return(user1)
     visit root_path
 
-    click_on 'Log in'
+    click_on 'Login'
 
     visit dashboard_index_path
 
-    expect(page).to have_link('Log out', href: '/logout')
+    expect(page).to have_link('Logout', href: '/logout')
 
-    click_on 'Log out'
+    click_on 'Logout'
 
     expect(current_path).to eq(root_path)
     expect(page).to have_content('Logged out')

@@ -9,7 +9,7 @@ RSpec.describe 'Logging In' do
 
   it 'as a registered user, I can log in with the correct information' do
 
-    click_on 'Log in'
+    click_on 'Login'
 
     expect(current_path).to eq('/login')
 
@@ -21,14 +21,14 @@ RSpec.describe 'Logging In' do
 
     expect(current_path).to eq(dashboard_index_path)
 
-    expect(page).to have_content("Welcome Bob Barker!")
+    expect(page).to have_content("Bob Barker's Dashboard")
     expect(page).to_not have_link('Register')
     expect(page).to_not have_link('Log in')
   end
 
   it 'as a registered user, I can not log in with the incorrect information' do
 
-    click_on 'Log in'
+    click_on 'Login'
 
     expect(current_path).to eq('/login')
 
