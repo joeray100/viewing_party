@@ -43,14 +43,12 @@ RSpec.describe 'Parties New Page' do
 
       expect(current_path).to eq(dashboard_index_path)
 
-      within('.viewing-parties') do
-        expect(page).to have_content(@movie.title)
-        expect(page).to have_content(Time.now.strftime('%B %e, %Y'))
-        expect(page).to have_content('06:09 PM')
-        expect(page).to have_content('Hosting')
-        expect(page).to have_content(@friend1.user_name)
-        expect(page).to have_content(@friend2.user_name)
-      end
+      expect(page).to have_content(@movie.title)
+      expect(page).to have_content(Time.now.strftime('%B%e, %Y'))
+      expect(page).to have_content('06:09 PM')
+      expect(page).to have_content('Hosting')
+      expect(page).to have_content(@friend1.user_name)
+      expect(page).to have_content(@friend2.user_name)
     end
   end
 end
